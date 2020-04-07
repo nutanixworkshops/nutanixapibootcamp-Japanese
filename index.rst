@@ -31,7 +31,7 @@
   :name: _appendix
   :hidden:
 
-
+  tools_vms/windows_tools_vm
   appendix/glossary
   appendix/basics
 
