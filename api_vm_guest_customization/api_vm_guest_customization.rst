@@ -7,16 +7,14 @@ API: ゲストVMのカスタマイズ
 概要
 ++++++++
 
-.. ノート::
+.. note::
 
-  想定演習時間: **20 分**
+   想定演習時間: **20 分**
 
 この演習ではWindows VMをNutanix v3 APIを使って作成します。
 APIのボディに「unattend.xml」を設定することで、ゲストカスタマイズ機能を使います。
 「unattend.xml」はbase64でエンコードされています。
 もし興味があれば、Linuxを使って "echo <base64-content> | base64 --decode" とすれば、base64をデコードした生のXMLを確認できます。
-
-
 
 演習: Windows VMの作成
 ++++++++++++++++++++++++++++++
