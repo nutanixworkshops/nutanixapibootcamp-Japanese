@@ -49,10 +49,11 @@
 
 - 配られたパスワードをメモします。
 - 下記にある情報にしたがって、リモートマシンに接続します。
-- Prismのイメージサービスを使ってWindowsとLinuxのイメージをアップロードします。:
-  - 「WindowsToolsVM.qcow2」(http://10.42.194.11/workshop_staging/WindowsToolsVM.qcow2)
-  - 「Windows2016.qcow2」(http://10.42.194.11/workshop_staging/Windows2016.qcow2)
-  - 「CentOS7.qcow2」(http://10.42.194.11/workshop_staging/CentOS7.qcow2)
+- Prismのイメージサービスを使ってWindowsとLinuxのイメージのご確認
+#をアップロードします。:
+#  - 「WindowsToolsVM.qcow2」(http://10.42.194.11/workshop_staging/WindowsToolsVM.qcow2)
+#  - 「Windows2016.qcow2」(http://10.42.194.11/workshop_staging/Windows2016.qcow2)
+#  - 「CentOS7.qcow2」(http://10.42.194.11/workshop_staging/CentOS7.qcow2)
 - Postmanというツールのアカウントを取得しておきます。(必須ではありません。)
 
 演習環境について
