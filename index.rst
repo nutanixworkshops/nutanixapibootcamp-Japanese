@@ -23,8 +23,6 @@
   :name: _nutanix_configuration
   :hidden:
 
-
-
 .. toctree::
   :maxdepth: 2
   :caption: Appendix
@@ -33,7 +31,8 @@
 
 
   appendix/glossary
-  appendix/basics
+  tools_vms/windows_tools_vm
+  tools_vms/linux_tools_vm
 
 .. _getting_started:
 
