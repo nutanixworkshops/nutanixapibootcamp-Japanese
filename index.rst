@@ -29,7 +29,6 @@
   :name: _appendix
   :hidden:
 
-
   appendix/glossary
   tools_vms/windows_tools_vm
   tools_vms/linux_tools_vm
