@@ -1,60 +1,63 @@
 .. _api_update_vm:
 
 ----------------------
-API: Update VM
+API: VMの更新
 ----------------------
 
-Overview
+概要
 ++++++++
 
-In this exercise perfoms two VM updates in a single API call.  You update you VM to associate a disk and perform a power on.
+この演習では仮想マシンの2つの更新を1回のAPI呼び出しで同時に更新をします。
+具体的には先程作成した仮想マシンに仮想ディスクを接続し、電源をONにします。
 
 .. note::
 
-  Estimated time to complete: **20 MINUTES**
+  想定演習時間: **20 分**
 
-
-
-
-Exercise: Update your VM
+演習: VMの更新
 ++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンを押して新しいリクエストのタブを作成します。
 
-#. Click the dropdown and select PUT
+#. HTTPメソッドで「PUT」を選択します。
 
-    - v3 uses PUT to allow the declaration of a spec that describes the new desired final state
+    - v3 API は PUT メソッドを使って更新させる「spec」の状態を宣言します。どのようにVMを更新するかをボディのspecに記述します。
 
-#. Enter the URL to update your VM
+#. VMを更新するために以下のURLを入力します。
 
-    - Copy the URL used in the third exercise: https://{{prism_central_ip}}:9440/api/nutanix/v3/vms/{{uuid}}
-    - Replace {{prism_central_ip}} with the IP address mentioned in the lab handout
+    - 3番目の演習で使った右のURLをコピーします。: https://{{prism_central_ip}}:9440/api/nutanix/v3/vms/{{uuid}}
+    - {{prism_central_ip}} を正しい Prism Central のIPに置き換えます。
 
     .. figure:: images/updatevm.png
 
-#. Configure basic authentication for this API call
+#. ベーシック認証を設定します。設定が残っていれば本手順は飛ばします。
 
-    - Follow the same steps from exercise 1
-    - v3 conforms to HTTP as a stateless protocol such that each API call is authenticated
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
+        - **Username** - admin
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+    - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
-#. Set the media type to application/json
+#. メディアタイプを「JSON」にします。
 
-    - Follow the same steps from **exercise 1**
+        - Bodyタブをクリックします。
+        - ラジオボタン(選択ボタン)でrawを選択します。
+        - Textのドロップダウンをクリックし、「JSON」を選択します。
 
-#. Fill out the body
+#. Bodyにリクエストペイロードの値を記述します。
 
-    - Click on the tab from **exercise 3** where you retrieved the status of your VM
-    - Copy the entire response
-    - Click on the right-most tab for this exercise to update your VM
-    - Paste the response from the GET as the body for the PUT
-    - Only delete the status object from the body and keep the spec and metadata section.
+    - **演習3(VMの状態の取得)** のリクエストタブを開きます。
+    - レスポンスデータの全てをコピーします。
+    - この演習のリクエストタブをクリックして設定に戻ります。
+    - HTTPメソッドをPUTにして、先ほど取得したレスポンスデータをボディとして貼り付けます。
+    - ボディから「status(keyとvalueの両方)」の行を全て削除し、specとmetadataはそのまま保持します。
 
     .. figure:: images/deletestatus.png
 
-#. Adjust the body to mount a disk and power on
+#. ボディを編集してディスクのマウントとパワーオンを追加します。
 
-    - Change the power_state attribute from OFF to ON
-    - Search for "disk_list": [] and replace with the following disk list into the spec
+    - power_state要素をOFFからONに変更します。
+    - 「"disk_list": [] 」を探し、以下のように書き換えます。
 
     .. code-block:: bash
 
@@ -74,28 +77,28 @@ Exercise: Update your VM
 
 
 
- - Replace <imageuuid> with the uuid of the CentOS image from **exercise 4**
+ - 上記の <imageuuid> を **演習4** で確認したCentOSイメージのUUIDに置き換えます。
 
     .. figure:: images/updatevmstate.png
 
-#. Click **Send** to submit the v3 API call
+#. Sendボタンを押してv3 APIにリクエストを送信します。
 
-    - v3 intentful PUTs return a **202** on success to indicate that the intent was accepted
-    - While the response state is **PENDING**, the VM is being transformed to its final state
-    - With most APIs, powering on a VM and adding a disk is two calls. With v3, both operations (generally, any number of operations) can be accomplished with one **PUT**
-    - Because of this, v3 exposes dramatically fewer URLs, as all entity transformations can be requested intentfully by providing the entity spec via PUT on the URL for the entity
+    - v3 のPUT命令は **202** を設定受付の成功時に返します。
+    - レスポンスのstateが **PENDING** となっている場合は、VMを要求した状態に移行している最中です。
+    - 多くのAPIの実装では仮想マシンのパワーオンとディスクの追加をおこなうためには2回のリクエストが必要です。一方、v3 APIでは両方の操作(厳密には2以上も可能)を1度の **PUT **リクエストで実施することができます。
+    - そのため、v3 APIは劇的に少ないAPIのURL数で様々な要素の変更をPUTリクエストのspec要素の指定にて実行できます。
 
-#. Get the status of your VM
+#. 仮想マシンの状態を取得します。
 
-    - Click on the tab for **exercise 3** where you retrieved the status of your VM
-    - Click **Send** to repeat the **GET** to retrieve the latest information about your VM
-    - Once the **state** is COMPLETE, the **status** will reflect the changes made to your VM
+    - 仮想マシンの状態を取得した **演習3** のタブをクリックします。
+    - **Send** ボタンを再度クリックして、 **GET** メソッドで改めて仮想マシンの状態を取得します。
+    - **state** が COMPLETE になったら、**status** に変更が適用されています。
 
-#. Check it out in the Prism UI
+#. Prismにログインして確認します。
 
-    - Open a web browser to https://{{prism_central_ip}}:9440/console/
-    - Enter the Prism **Username** and **Password** displayed in your lab handout to log in
-    - Type the f key or click the search icon to open the search bar on the header
-    - Enter the name of your VM (hint: your Initials)
-    - Click on your VM in the table and click the **Launch Console** button under the table
-    - A window will appear for the CentOS login prompt
+    - ブラウザを開いてPrism Centralにアクセスします。: https://{{prism_central_ip}}:9440/console/
+    - Prism Centralで **Username** と **Password** を入力してログインします。
+    - 「f」キーを押すか検索アイコンをクリックして検索バーを表示します。
+    - 仮想マシン名を入力します。イニシャルが名前につけられているはずです。
+    - テーブルにある仮想マシンをクリックして選択し、テーブル下に表示される **Launch Console** ボタンを押します。
+    - CentOSにログインするためのウィンドウが表示されます(電源ONとディスクのアタッチに成功している事になります。)

@@ -1,62 +1,62 @@
 .. _api_vm_guest_customization:
 
 ----------------------
-API: VM Guest Customization
+API: ゲストVMのカスタマイズ
 ----------------------
 
-Overview
+概要
 ++++++++
 
 .. note::
 
-  Estimated time to complete: **20 MINUTES**
+   想定演習時間: **20 分**
 
-In the following exercise you will create a Windows VM using Nutanix v3 APIs.  In the
-API body you will include a unattend.xml to allow guest customization. The unattend.xml is base64 encoded.
-Optionally from Linux you can run "echo <base64-content> | base64 --decode" to see the raw xml.
+この演習ではWindows VMをNutanix v3 APIを使って作成します。
+APIのボディに「unattend.xml」を設定することで、ゲストカスタマイズ機能を使います。
+「unattend.xml」はbase64でエンコードされています。
+もし興味があれば、Linuxを使って "echo <base64-content> | base64 --decode" とすれば、base64をデコードした生のXMLを確認できます。
 
-
-
-Exercise: Create your Windows VM
+演習: Windows VMの作成
 ++++++++++++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンをクリックして新しいリクエストタブを作成します。
 
     .. figure:: images/newtab.png
 
-#. Click the dropdown and select POST
+#. HTTPメソッドのドロップダウンで POST を選択します。
 
-    - v3 is RESTful and uses standard HTTP verbs like GET, POST, PUT, DELETE
+    - v3 API は Restfulな設計で、一般的なHTTPメソッドであるGET, POST, PUT, DELETEなどを使います。
 
     .. figure:: images/postfunction.png
 
-#. Enter the URL to create a VM
+#. 仮想マシンを作成するために以下のURLを入力します。
 
     - https://{{prism_central_ip}}:9440/api/nutanix/v3/vms
-    - v3 exposes semantic URLs to make understanding and using the API easy
+    - v3 は簡単なセマンティックAPIを提供します。
 
     .. figure:: images/urlcreate.png
 
-#. Configure basic authentication for this API call
+#. ベーシック認証を設定します。設定が残っていれば本手順は飛ばします。
 
-    - Click the **Authorization** tab and select **Basic Auth** from the Type dropdown
-    - Enter Prism credentials of the cluster, and click **Update Request**:
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
         - **Username** - admin
-        - **Password** - Use the “Prism login password” from handout
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+    - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
     .. figure:: images/basicauth.png
 
-#. Set the media type to application/json
+#. メディアタイプを「JSON」に設定する
 
-    - Click the Body tab
-    - Select the radio button for raw
-    - Click the Text dropdown and select JSON (application/json)
+    - Bodyタブをクリックします。
+    - ラジオボタンで raw を選択します。
+    - Text のドロップダウンをクリックし「JSON」を選択
 
     .. figure:: images/jsonmediatype.png
 
-#. Fill out the body
+#. Bodyにリクエストペイロードの値を記述します。
 
-    - Copy or type the following JSON as the VM intent input
+    - 以下をコピーもしくは入力します。
 
     .. code-block:: bash
 
@@ -167,32 +167,32 @@ Exercise: Create your Windows VM
 
 
 
-    Required edits to above body
-      - Change the VM’s name to add your initials at the end of VM name. Replace <initial> with your initials.
-      - Change the subnet UUID to a valid subnet UUID on your cluster.  Replace <subnetuuid>
-      - Change the disk image to the UUID of the Windows 2016 image.  Replace <diskimageuuid>
+    上記のボディの何箇所かを修正する必要があります。
+      - VM名の最後をあなたのイニシャルに設定します。上記の <initial> をあなたのイニシャルに変更します。
+      - サブネットの UUID を受講者のクラスターが持つサブネットのUUIDに変更します。上記の <subnetuuid> を置き換えます。
+      - ディスクイメージのUUIDをWindowsに変更します。上記の <diskimageuuid> を置き換えます。
 
 
-   The follwoning configuration gets applied/created from the unattend.xml
-      - Create a new user Nutanix , with password Nutanix123#
-      - Changes the timezone to PST.
-      - Changes the system locale to en-US
-      - Hostname to Calm
+    以下の設定が unattend.xml より適用されます。
+      - 新しいユーザー Nutanix を作成し、そのパスワードを Nutanix123# とします。
+      - タイムゾーンを PST にします。
+      - システム言語を en-US にします。
+      - ホスト名を Calm にします。
 
 
-7. Click Send to submit the v3 API call
+7. Sendボタンを押してv3 APIにリクエストを送信します。
 
-    v3 provides a precise HTTP status and replies with the relevant intent response
+    v3 APIは要求されたリクエストに対するステータスとレスポンスボディを返します。
 
     .. figure:: images/createresponse.png
 
 
 
-8. Check it out in the Prism UI
+8. Prism UI で確認する
 
-    - Open a web browser to https://{{prism_central_ip}}:9440/console/
-    - Enter the Prism **Username** and **Password** displayed in your lab handout to log in
-    - Type the f key or click the search icon to open the search bar on the header
-    - Enter the name of your VM (hint: your Initials)
-    - Click on your VM in the table and click the **Launch Console** button under the table
-    - A window will appear for the CentOS login prompt
+    - ブラウザを開いてPrism Centralにアクセスします。: https://{{prism_central_ip}}:9440/console/
+    - Prism Centralで **Username** と **Password** を入力してログインします。
+    - 「f」キーを押すか検索アイコンをクリックして検索バーを表示します。
+    - 仮想マシン名を入力します。イニシャルが名前につけられているはずです。
+    - テーブルに表示されたVMをクリックし、テーブル下に表示された **Launch Console** ボタンを押します。
+    - Windowsのログイン画面が表示されたウィンドウが表示されます。

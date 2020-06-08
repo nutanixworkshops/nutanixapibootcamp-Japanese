@@ -1,47 +1,51 @@
 .. _api_image_list:
 
-----------------------
-API: List of Images
-----------------------
+-----------------
+API: イメージの一覧
+-----------------
 
-Overview
+概要
 ++++++++
 
-In this exercise you will list the images on the clusters.  Later exercises
-will require the image uuid in the JSON body.  These images are stored in the AHV image service.
+この演習ではクラスターのイメージ(仮想マシンになるテンプレート)の一覧を取得します。
+後ほど行う演習では得られたレスポンスのJSONに含まれるイメージのUUIDが必要となります。
+これらのイメージはAHVのイメージサービスという機能で管理されています。
 
 .. note::
 
-  Estimated time to complete: **5 MINUTES**
+   想定演習時間: **5 分**
 
-
-
-Exercise: List the images on the cluster
+演習: クラスタ内イメージ一覧の取得
 +++++++++++++++++++++++++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンをクリックして新しいリクエストのタブを作成します。
 
-#. Click the dropdown and select POST
+#. HTTPメソッドをPOSTにします。
 
-    - v3 standardizes on POST for listing to offer server-side filtering, grouping, and sorting
+    - Nutanix API v3 ではPOSTメソッドを使ってサーバーサイドのフィルタリング、グルーピング、ソートを実施しています。
 
-#. Enter the URL to list images
+#. イメージ一覧を得るためのURLを入力します。
 
     - https://{{prism_central_ip}}:9440/api/nutanix/v3/images/list
 
-#. Configure basic authentication for this API call
+#. ベーシック認証を設定します。設定が残っていれば本手順は飛ばします。
 
-    - Follow the same steps from the first exercise
-    - v3 conforms to HTTP as a stateless protocol such that each API call is authenticated
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
+        - **Username** - admin
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+    - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
-#. Set the media type to application/json
+#. メディアタイプを「JSON」にします。
 
-    - Follow the same steps from the first exercise
+        - Bodyタブをクリックします。
+        - ラジオボタン(選択ボタン)でrawを選択します。
+        - Textのドロップダウンをクリックし、「JSON」を選択します。
 
-#. Fill out the body
+#. Bodyにリクエストペイロードの値を記述します。
 
-    - Click the Body tab
-    - Copy or type an empty dictionary in the json body as seen below
+    - Bodyタブをクリックします。
+    - コピーもしくは空データをJSONで記述します。
 
     .. code-block:: bash
 
@@ -49,14 +53,14 @@ Exercise: List the images on the cluster
 
     .. figure:: images/apimetajson.png
 
-#. Click Send to submit the v3 API call
+#. Sendボタンを押してv3 APIにリクエストを送信します。
 
-  - The intent response provides an array of image resources, similar to GET on one entity
-  - Take note of the uuid for the CentOS7 disk image in the metadata section
+    - レスポンスにはアレイ(リスト)形式でイメージの一覧が表示されます。
+    - 「CentOS7.qcow2」というイメージのmetadataにあるUUIDをメモしておきます。
 
     .. figure:: images/centosuuid.png
 
 
-  - Take note of the uuid for the Windows2016 disk image in the metadata section
+    - 「Windows2016.qcow2」というイメージのmetadataにあるUUIDをメモしておきます。
 
     .. figure:: images/windowsuuid.png

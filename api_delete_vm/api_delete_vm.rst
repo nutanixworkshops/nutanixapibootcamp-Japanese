@@ -1,32 +1,38 @@
 .. _api_delete_vm:
 
 ----------------------
-API: Delete VM
+API: 仮想マシンの削除
 ----------------------
 
-Overview
+概要
 ++++++++
 
-In this exercise you will delete the VM you created in exercise 2.
+この演習では演習2で作成した仮想マシンを削除します。
 
 .. note::
 
-  Estimated time to complete: **5 MINUTES**
+   想定演習時間: **5 分**
 
-Exercise: Delete your VM
+演習: VMの削除
 ++++++++++++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンを押して新しいリクエストタブを作成します。
 
-#. Confirm that **Delete** is selected in the dropdown
+#. HTTPメソッドのドロップダウンで **Delete** を選択します。
 
-#. Enter the URL to for your VM Start with the URL from the previous exercise:
+#. 先程の演習で利用した以下の各値をURL欄にコピーもしくは記述します。:
 
     - https://{{prism_central_ip}}:9440/api/nutanix/v3/vms
-    - Append /{{uuid}} to the URL, using the uuid from the metadata section noted in the VM creation response in exercise 2.
+    - 上記URLに /{{uuid}} を追加します。このUUIDは演習2のmetadata項目で取得した仮想マシンのUUIDです。
 
-#. Configure basic authentication for this API call
+#. ベーシック認証を設定します。設定が残っていれば本手順は飛ばします。
 
-    - Follow the same steps from exercise 1
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
+        - **Username** - admin
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+    - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
-#. Click Send to submit the delete API call
+#. Sendボタンを押してv3 APIにリクエストを送信します。
+
+    - PrismでVMが削除されたことを確認します。

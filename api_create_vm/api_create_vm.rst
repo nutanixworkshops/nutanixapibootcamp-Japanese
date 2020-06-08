@@ -1,61 +1,60 @@
 .. _api_create_vm:
 
 ----------------------
-API: Create VM
+API: VMの作成
 ----------------------
 
-Overview
+概要
 ++++++++
 
-In the following exercise, you will create a VM using Nutanix v3 APIs.  The VM
-will be created in a powered off state with no disks attached.
+この演習では Nutanix v3 APIs を利用して仮想マシンの作成を行います。
+仮想マシンは仮想ディスク(vDisk)を搭載せず、パワーオフの状態で作成されます。
 
 .. note::
 
-  Estimated time to complete: **20 MINUTES**
+   想定演習時間: **20 分**
 
-
-
-Exercise: Create your own VM
+演習: 仮想マシンの作成
 ++++++++++++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンをクリックして、新しいリクエストタブを作成します。
 
     .. figure:: images/newtab.png
 
-#. Click the dropdown and select POST
+#. HTTPメソッドのドロップダウンをクリックしPOSTを選択します。
 
-    - v3 is RESTful and uses standard HTTP verbs like GET, POST, PUT, DELETE
+    - v3 API は RESTful な設計になっており、GET, POST, PUT, DELETEといった一般的なHTTPメソッドを利用します。
 
     .. figure:: images/postfunction.png
 
-#. Enter the URL to create a VM
+#. 仮想マシンを作成するために以下のURLを入力します。
 
     - https://{{prism_central_ip}}:9440/api/nutanix/v3/vms
-    - v3 exposes semantic URLs to make understanding and using the API easy
+    - v3 APIはセマンティックURLという仕組みを採用しており、APIの理解と利用を簡単にしています。
 
     .. figure:: images/urlcreate.png
 
-#. Configure basic authentication for this API call
+#. ベーシック認証の設定をします。
 
-    - Click the **Authorization** tab and select **Basic Auth** from the Type dropdown
-    - Enter Prism credentials of the cluster, and click **Update Request**:
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
         - **Username** - admin
-        - **Password** - Use the “Prism login password” from handout
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+        - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
     .. figure:: images/basicauth.png
 
-#. Set the media type to application/json
+#. メディアタイプを「JSON」にします。
 
-    - Click the Body tab
-    - Select the radio button for raw
-    - Click the Text dropdown and select JSON (application/json)
+        - Bodyタブをクリックします。
+        - ラジオボタン(選択ボタン)でrawを選択します。
+        - Textのドロップダウンをクリックし、「JSON」を選択します。
 
-    .. figure:: images/jsonmediatype.png
+        .. figure:: images/jsonmediatype.png
 
-#. Fill out the body
+#. Bodyにリクエストペイロードの値を記述します。
 
-    - Copy or type the following JSON as the VM intent input
+    - 「VM intent input」として以下をコピーもしくは入力します。
 
     .. code-block:: bash
 
@@ -77,12 +76,12 @@ Exercise: Create your own VM
       }
 
 
-    - Change the VM’s name to add your initials at the end of VM name. Replace <initial> with your initials
-    - You will need to replace <clusteruuid> with your cluster UUID from exercise 1
-    - Take note of your VM UUID from the response
+    - 仮想マシン名の<initial>を受講者のイニシャルに変更します。
+    - クラスタのUUIDの<clusteruuid>を先の演習で確認したクラスタのUUIDに変更します。
+    - このあとに得られるレスポンスボディから、仮想マシンのUUIDを確認してメモしておきます。
 
-7. Click Send to submit the v3 API call
+7. Sendボタンを押してv3 APIにリクエストを送信します。
 
-    v3 provides a precise HTTP status and replies with the relevant intent response
+    v3 APIはリクエストに応じたレスポンス(ステータスとボディ)を返し、Postmanはそれを表示します。
 
     .. figure:: images/vmuuid.png

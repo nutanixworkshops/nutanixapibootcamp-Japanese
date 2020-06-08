@@ -12,9 +12,7 @@ Some of the information in the lab will be provided by the instructor.
 
 .. note::
 
-  Estimated time to complete: **5 MINUTES**
-
-
+   Estimated time to complete: **5 MINUTES**
 
 Exercise: Lanch Calm Blueprint
 +++++++++++++++++++++++++++++++++++++++++++

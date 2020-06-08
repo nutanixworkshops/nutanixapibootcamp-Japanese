@@ -1,46 +1,49 @@
 .. _api_vm_list:
 
 ----------------------
-API: List of VMs
+API: VMリスト
 ----------------------
 
-Overview
+概要
 ++++++++
 
-In this exercise you will list all VMs on the specified cluster.
+この演習では仮想マシンの一覧を取得します。
 
 .. note::
 
-  Estimated time to complete: **5 MINUTES**
+   想定演習時間: **5 分**
 
-
-
-Exercise: List the VMs
+演習: VMのリスト表示
 +++++++++++++++++++++++++++++++++++++++++++
 
-#. Click + in the main window to create a new tab-window
+#. Postmanの「+」ボタンをクリックして、新しいリクエストタブを作成します。
 
-#. Click the dropdown and select POST
+#. HTTPメソッドのドロップダウンをクリックし POST を選択します。
 
-    - v3 standardizes on POST for listing to offer server-side filtering, grouping, and sorting
+    - Nutanix API v3 ではPOSTメソッドを使ってサーバーサイドのフィルタリング、グルーピング、ソートを実施しています。
 
-#. Enter the URL to list images
+#. 仮想マシンの一覧を得るために以下のURLを入力します。
 
     - https://{{prism_central_ip}}:9440/api/nutanix/v3/vms/list
 
-#. Configure basic authentication for this API call
+#. ベーシック認証を設定します。設定が残っていれば本手順は飛ばします。
 
-    - Follow the same steps from the first exercise
-    - v3 conforms to HTTP as a stateless protocol such that each API call is authenticated
+    - **Authorization** タブをクリックし **Basic Auth** をTypeのドロップダウンから選択します。
+    - プリズムのクレデンシャルを入力し **Update Request** をクリックします。:
+        - **Username** - admin
+        - **Password** - 講師から与えられた“Prism login password”を使います。
+    - v3 API はHTTPをステートレス(状態がない)なプロトコルとして扱います。そのため、認証はAPIの呼び出しごとに毎回おこなわれます。
 
-#. Set the media type to application/json
+#. メディアタイプを「JSON」にします。
 
-    - Follow the same steps 5 from the first exercise
+        - Bodyタブをクリックします。
+        - ラジオボタン(選択ボタン)でrawを選択します。
+        - Textのドロップダウンをクリックし、「JSON」を選択します。
 
-#. Fill out the body
+#. Bodyにリクエストペイロードの値を記述します。
 
-    - Click the Body tab
-    - Copy or type an empty dictionary in the json body as seen below
+    - Bodyタブをクリックします。
+    - コピーもしくは空データをJSONで記述します。
 
     .. code-block:: bash
 
@@ -48,8 +51,8 @@ Exercise: List the VMs
 
     .. figure:: images/apimetajson.png
 
-#. Click Send to submit the v3 API call
+#. Sendボタンを押してv3 APIにリクエストを送信します。
 
-    - The intent response provides an array of VMs
+    - レスポンスには VM の一覧が含まれています。先ほどの演習で削除したVMが表示されないことを確認します。
 
   .. figure:: images/vmlist.png
